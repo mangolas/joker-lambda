@@ -9,9 +9,9 @@ $(LIB): bin/joker
 	mkdir -p target
 	zip $@ $^
 
-$(BOOTSTRAP): bootstrap bootstrap.clj
+$(BOOTSTRAP): bootstrap src/bootstrap.clj
 	mkdir -p target
-	zip $@ $^
+	zip -j $@ $^
 
 target/update-lib: $(LIB)
 	aws lambda publish-layer-version \
