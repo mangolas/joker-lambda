@@ -2,7 +2,7 @@
 LIB = target/layer-joker-lib.zip
 BOOTSTRAP = target/layer-joker-bootstrap.zip
 
-PHONY: all
+.PHONY: all
 all: target/update-lib target/update-bootstrap
 
 $(LIB): bin/joker
