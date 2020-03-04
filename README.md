@@ -1,6 +1,6 @@
 Minimal AWS Lambda runtime using [Joker](https://github.com/candid82/joker).
 
-Quick usage help (requires you have AWS cli installed):
+Quick usage help (depends on AWS cli):
 
 ```shell script
 $ export AWS_PROFILE=xxx AWS_DEFAULT_REGION=xxx
