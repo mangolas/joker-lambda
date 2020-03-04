@@ -9,12 +9,12 @@ LAYER_BOOTSTRAP_ZIP = target/layer-joker-bootstrap.zip
 LAYER_BOOTSTRAP_NAME = joker-bootstrap
 LAYER_BOOTSTRAP_ARN = target/bootstrap-version-arn
 
-LAMBDA_SRC = example/src/hello_world.joker
-LAMBDA_ZIP = target/$(LAMBDA_NAME).zip
+LAMBDA_SRC = example/src/hello_world.clj
 LAMBDA_NAME = hello-world
-LAMBDA_HANDLER = hello_world.joker/handle
+LAMBDA_ZIP = target/$(LAMBDA_NAME).zip
+LAMBDA_HANDLER = hello_world.clj/handle
 
-# LAMBDA_ROLE value *must* be given for 'target/create-function'
+# LAMBDA_ROLE value *must* be given for 'create'
 LAMBDA_ROLE_IAM = ${LAMBDA_ROLE}
 
 .PHONY: create update layers
@@ -32,7 +32,7 @@ $(LAYER_LIB_ZIP): target/bin/joker
 	mkdir -p target
 	cd target; zip ../$@ bin/joker
 
-$(LAYER_BOOTSTRAP_ZIP): bootstrap/bootstrap bootstrap/src/bootstrap.joker
+$(LAYER_BOOTSTRAP_ZIP): bootstrap/bootstrap bootstrap/src/bootstrap.clj
 	mkdir -p target
 	zip -j $@ $^
 
@@ -75,3 +75,11 @@ target/update-function: $(LAMBDA_ZIP) target/update-function-layers
     --function-name $(LAMBDA_NAME) \
     --zip-file fileb://$(LAMBDA_ZIP)
 	touch $@
+
+delete-function:
+	aws lambda delete-function \
+	--function-name $(LAMBDA_NAME)
+	rm -f target/update-function \
+	      target/update-function-layers \
+	      target/create-function
+.PHONY: delete-function
